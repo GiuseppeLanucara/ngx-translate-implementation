@@ -1,6 +1,8 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -8,9 +10,20 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'it',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http: HttpClient) => {
+          return new TranslateHttpLoader(http);
+        },
+        deps: [HttpClient]
+      }
+    })
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'it' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
